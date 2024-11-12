@@ -253,7 +253,7 @@ local function check_languages()
         check_thunk { cmd = "java", args = { "-version" }, name = "java", use_stderr = true, relaxed = true },
         check_thunk { cmd = "julia", args = { "--version" }, name = "julia", relaxed = true },
         function()
-            local python = platform.is.win and "python" or "python3"
+            local python = platform.is.win and "python" or "python3" or "python.bat" or "python3.bat"
             check { cmd = python, args = { "--version" }, name = "python", relaxed = true }
             check { cmd = python, args = { "-m", "pip", "--version" }, name = "pip", relaxed = true }
             check {
