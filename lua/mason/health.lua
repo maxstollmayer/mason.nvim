@@ -257,9 +257,6 @@ local function check_languages()
         check_thunk { cmd = "java", args = { "-version" }, name = "java", use_stderr = true, relaxed = true },
         check_thunk { cmd = "julia", args = { "--version" }, name = "julia", relaxed = true },
         function()
-            -- local python = vim.g.python3_host_prog --and vim.fn.expand(vim.g.python3_host_prog)
-            --     or platform.is.win and "python"
-            --     or "python3"
             check { cmd = python, args = { "--version" }, name = "python", relaxed = true }
             check { cmd = python, args = { "-m", "pip", "--version" }, name = "pip", relaxed = true }
             check {
