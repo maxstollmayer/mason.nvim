@@ -15,6 +15,10 @@ local M = {}
 
 local VENV_DIR = "venv"
 
+local stock_candidates = vim.g.python3_host_prog and { vim.fn.expand(vim.g.python3_host_prog) }
+    or platform.is.win and { "python", "python3" }
+    or { "python3", "python" }
+
 ---@async
 ---@param candidates string[]
 local function resolve_python3(candidates)
@@ -76,7 +80,6 @@ local function create_venv(pkg)
     local supported_python_versions = providers.pypi.get_supported_python_versions(pkg.name, pkg.version):get_or_nil()
 
     -- 1. Resolve stock python3 installation.
-    local stock_candidates = platform.is.win and { "python", "python3", "python.bat", "python3.bat" } or { "python3", "python" }
     local stock_target = resolve_python3(stock_candidates)
     if stock_target then
         log.fmt_debug("Resolved stock python3 installation version %s", stock_target.version)

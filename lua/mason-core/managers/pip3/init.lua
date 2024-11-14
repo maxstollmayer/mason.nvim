@@ -13,6 +13,10 @@ local VENV_DIR = "venv"
 
 local M = {}
 
+local executables = vim.g.python3_host_prog and { vim.fn.expand(vim.g.python3_host_prog) }
+    or platform.is.win and { "python", "python3" }
+    or { "python3", "python" }
+
 local create_bin_path = _.compose(path.concat, function(executable)
     return _.append(executable, { VENV_DIR, platform.is.win and "Scripts" or "bin" })
 end, _.if_else(_.always(platform.is.win), _.format "%s.exe", _.identity))
@@ -47,8 +51,6 @@ function M.install(packages)
     end)
 
     a.scheduler()
-
-    local executables = platform.is.win and { "python", "python3" } or { "python3", "python" }
 
     -- pip3 will hardcode the full path to venv executables, so we need to promote cwd to make sure pip uses the final destination path.
     ctx:promote_cwd()
